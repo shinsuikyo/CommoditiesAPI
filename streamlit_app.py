@@ -13,8 +13,8 @@ from sqlalchemy import create_engine
 import xgboost as xgb
 
 # Import secrets from Streamlit
-db_url = st.secrets["db_url"]
-
+#db_url = st.secrets["db_url"]
+db_url = "postgresql://neondb_owner:F3B0ILRQdTmA@ep-noisy-dust-a5d1g4f7.us-east-2.aws.neon.tech/streamlit?sslmode=require"
 # Title and Description
 st.title('Commodity Price Prediction App')
 st.markdown('''
