@@ -11,7 +11,8 @@ from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler
 
 # Database connection setup
-connection_string = st.secrets['db_url']
+connection_string = "postgresql://neondb_owner:F3B0ILRQdTmA@ep-noisy-dust-a5d1g4f7.us-east-2.aws.neon.tech/streamlit?sslmode=require"
+
 engine = create_engine(connection_string)
 
 # Query function with caching
