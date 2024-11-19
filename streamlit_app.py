@@ -49,19 +49,19 @@ for model_name, description in model_descriptions.items():
 st.sidebar.header('Data Settings')
 engine = create_engine(db_url)
 
-df = pd.read_sql("SELECT * FROM historical_data_commodities_temp", con=engine)
+df = pd.read_sql("SELECT * FROM MarketHistoricalData", con=engine)
 
 # Add a dropdown for selecting the title from the schema
-st.sidebar.subheader('Select Title')
-title_options = df['Title'].unique()
-selected_title = st.sidebar.selectbox('Select Title', title_options)
+st.sidebar.subheader('Select Symbol')
+title_options = df['Symbol'].unique()
+selected_title = st.sidebar.selectbox('Select Symbol', title_options)
 
 # Retrieve data for the selected title
-df = pd.read_sql(f"SELECT * FROM historical_data_commodities_temp WHERE \"Title\" = '{selected_title}'", con=engine)
+df = pd.read_sql(f"SELECT * FROM MarketHistoricalData WHERE \"Symbol\" = '{selected_title}'", con=engine)
 
 # Step 2: Data Cleaning and Processing
-df['Date'] = pd.to_datetime(df['Date'])
-df.set_index('Date', inplace=True)
+df['CountDate'] = pd.to_datetime(df['CountDate'])
+df.set_index('CountDate', inplace=True)
 df = df.sort_index()
 
 # Step 3: Feature Engineering
@@ -69,9 +69,9 @@ df['Month'] = df.index.month
 df['Year'] = df.index.year
 df['Day'] = df.index.day
 df['Quarter'] = df.index.quarter
-df['5_Day_Moving_Avg'] = df['Close'].rolling(window=5).mean()
-df['Close_Lag_1'] = df['Close'].shift(1)
-df['Close_Lag_2'] = df['Close'].shift(2)
+df['5_Day_Moving_Avg'] = df['closeprice'].rolling(window=5).mean()
+df['Close_Lag_1'] = df['closeprice'].shift(1)
+df['Close_Lag_2'] = df['closeprice'].shift(2)
 
 # Splitting Training and Test Data
 train_df = df.sample(frac=0.7, random_state=42)
